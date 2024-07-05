@@ -9,7 +9,7 @@
 
     <div class="info-container">
         <h4 class="text-center">
-            {$translator->translate('action.show.draftHeading')|replace:"#1":$draft.teams[0].teamName|replace:"#2":$draft.teams[1].teamName nofilter}
+            {$translator->translate('draft.show.draftHeading')|replace:"#1":$draft.teams[0].teamName|replace:"#2":$draft.teams[1].teamName nofilter}
         </h4>
 
         <hr>
@@ -19,22 +19,22 @@
                 {if $teamId === $currentTurn}
                     <div class="alert alert-success" role="alert">
                         {if $currentPhase === 'ban'}
-                            {$translator->translate('action.show.yourTurnToBan')}
+                            {$translator->translate('draft.show.yourTurnToBan')}
                         {else}
-                            {$translator->translate('action.show.yourTurnToPick')}
+                            {$translator->translate('draft.show.yourTurnToPick')}
                         {/if}
 
                         {if $draft.timeout > 0}
                             {capture assign=replacement}<span id="draftTimeoutTimer">{$draft.timeout}</span>{/capture}
-                            {$translator->translate('action.show.timeLeft')|replace:'#1':$replacement nofilter}
+                            {$translator->translate('draft.show.timeLeft')|replace:'#1':$replacement nofilter}
                         {/if}
                     </div>
                 {else}
                     <div class="alert alert-primary" role="alert">
                         {if $currentPhase === 'ban'}
-                            {$translator->translate('action.show.enemyTurnToBan')}
+                            {$translator->translate('draft.show.enemyTurnToBan')}
                         {else}
-                            {$translator->translate('action.show.enemyTurnToPick')}
+                            {$translator->translate('draft.show.enemyTurnToPick')}
                         {/if}
                     </div>
                 {/if}
@@ -100,16 +100,16 @@
 
             <div class="form-group row">
                 <label for="inputTrackSearch" class="col-sm-2 col-form-label">
-                    {$translator->translate('action.show.searchTracksLabel')}
+                    {$translator->translate('draft.show.searchTracksLabel')}
                 </label>
 
                 <div class="col-sm-2">
                     {if $draft.mode == 1}
-                        <input type="text" class="form-control" id="inputTrackSearch" placeholder="{$translator->translate('action.show.searchTracksPlaceholderRace')}" autofocus>
+                        <input type="text" class="form-control" id="inputTrackSearch" placeholder="{$translator->translate('draft.show.searchTracksPlaceholderRace')}" autofocus>
                     {/if}
 
                     {if $draft.mode == 2}
-                        <input type="text" class="form-control" id="inputTrackSearch" placeholder="{$translator->translate('action.show.searchTracksPlaceholderBattle')}" autofocus>
+                        <input type="text" class="form-control" id="inputTrackSearch" placeholder="{$translator->translate('draft.show.searchTracksPlaceholderBattle')}" autofocus>
                     {/if}
                 </div>
             </div>
@@ -138,6 +138,6 @@
     {/if}
 {else}
     <div class="container">
-        <div class="alert alert-danger">{$translator->translate('action.show.draftDoesNotExist')|replace:'#1':$id}</div>
+        <div class="alert alert-danger">{$translator->translate('draft.show.draftDoesNotExist')|replace:'#1':$id}</div>
     </div>
 {/if}

@@ -4,9 +4,11 @@ declare(strict_types = 1);
 
 namespace DraftTool\Controllers;
 
+use DraftTool\Attributes\Route;
 use DraftTool\Lib\App;
 use DraftTool\Lib\BaseController;
 use DraftTool\Services\Draft;
+use DraftTool\Services\Request;
 
 /**
  * Draft Controller
@@ -17,6 +19,7 @@ class DraftController extends BaseController
     /**
      * Index Action
      */
+    #[Route('/draft/index', [Request::METHOD_GET])]
     public function indexAction(): void
     {
     }
@@ -24,11 +27,12 @@ class DraftController extends BaseController
     /**
      * Action to create a new draft
      */
+    #[Route('/draft/new', [Request::METHOD_POST])]
     public function newAction(): void
     {
-        $this->template->assign([
+        $this->smarty->assign([
             'baseUrl'       => App::router()->getBaseUrl(),
-            'formAction'    => App::router()->generateUrl('draft', 'createDraft'),
+            'formAction'    => App::router()->generateUrl('draft', 'save'),
             'modes'         => App::draft()->getModes()
         ]);
     }
@@ -36,6 +40,7 @@ class DraftController extends BaseController
     /**
      * Action to show a draft
      */
+    #[Route('/draft/show', [Request::METHOD_GET])]
     public function showAction(): void
     {
         $draftId = (int) $this->request->getParam('id');
@@ -75,7 +80,7 @@ class DraftController extends BaseController
                 'isAvailable'   => true
             ];
             
-            $this->template->assign([
+            $this->smarty->assign([
                 'id'                        => $draftId,
                 'accessKey'                 => $accessKey,
                 'draft'                     => $draft,
@@ -87,13 +92,14 @@ class DraftController extends BaseController
                 'currentTurn'               => App::draft()->getCurrentTurn($draftId)
             ]);
         } else {
-            $this->template->assign('id', $draftId);
+            $this->smarty->assign('id', $draftId);
         }
     }
     
     /**
      * Displays a list of all drafts
      */
+    #[Route('/draft/list', [Request::METHOD_GET])]
     public function listAction(): void
     {
         $limit = 10;
@@ -117,7 +123,7 @@ class DraftController extends BaseController
         $offset = ($page - 1) * $limit;
         $drafts = App::draft()->findAll($limit, $offset);
         
-        $this->template->assign([
+        $this->smarty->assign([
             'drafts'    => $drafts,
             'pages'     => $pages,
             'page'      => $page
@@ -127,6 +133,7 @@ class DraftController extends BaseController
     /**
      * Ajax action to create a draft and return the created draft's data
      */
+    #[Route('/draft/save', [Request::METHOD_POST])]
     public function saveAction(): void
     {
         if ($this->request->isPost()) {
@@ -176,6 +183,7 @@ class DraftController extends BaseController
     /**
      * Action to update a draft (ban / pick)
      */
+    #[Route('/draft/update', [Request::METHOD_POST])]
     public function updateAction(): void
     {
         if ($this->request->isPost()) {

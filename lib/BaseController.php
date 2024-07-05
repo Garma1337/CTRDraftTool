@@ -23,12 +23,12 @@ abstract class BaseController
     /**
      * @var Smarty
      */
-    protected Smarty $template;
+    protected Smarty $smarty;
     
     public function __construct()
     {
         $this->request = App::request();
-        $this->template = App::template();
+        $this->smarty = App::smarty();
     }
     
     /**
@@ -71,7 +71,7 @@ abstract class BaseController
         }
         
         /* Imagine assigning objects to the view KEKW ... I am lazy */
-        $this->template->assign([
+        $this->smarty->assign([
             'controller'    => $controller,
             'action'        => $action,
             'router'        => App::router(),
@@ -79,13 +79,13 @@ abstract class BaseController
         ]);
         
         $templateFile = $controller . '/' . $template . '.tpl';
-        if (!$this->template->templateExists($templateFile)) {
+        if (!$this->smarty->templateExists($templateFile)) {
             return;
         }
         
-        $content = $this->template->fetch($templateFile);
+        $content = $this->smarty->fetch($templateFile);
         
-        $layout = App::template();
+        $layout = App::smarty();
         $layout->assign('content', $content);
         
         $layout->display('layout.tpl');

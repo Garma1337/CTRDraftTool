@@ -288,7 +288,6 @@ class Draft
         
         $ids = App::db()->executeQuery($query)->fetchAll(PDO::FETCH_COLUMN);
         
-        /* Bad performance, I guess I could just rewrite the query above to join with the draft_teams table */
         foreach ($ids as $id) {
             $drafts[$id] = $this->findById((int) $id);
         }
@@ -445,24 +444,24 @@ class Draft
         $errors = [];
         
         if (empty($params['mode'])) {
-            $errors[] = App::translator()->translate('action.createDraft.modeMissing');
+            $errors[] = App::translator()->translate('draft.save.modeMissing');
         } else {
             if ($params['mode'] !== self::MODE_RACE && $params['mode'] !== self::MODE_BATTLE) {
-                $errors[] = App::translator()->translate('action.createDraft.modeDoesNotExist');
+                $errors[] = App::translator()->translate('draft.save.modeDoesNotExist');
             }
         }
         
         if (empty($params['teamA'])) {
-            $errors[] = App::translator()->translate('action.createDraft.teamANameMissing');
+            $errors[] = App::translator()->translate('draft.save.teamANameMissing');
         }
         
         if (empty($params['teamB'])) {
-            $errors[] = App::translator()->translate('action.createDraft.teamBNameMissing');
+            $errors[] = App::translator()->translate('draft.save.teamBNameMissing');
         }
         
         if (!empty($params['teamA']) && !empty($params['teamB'])) {
             if ($params['teamA'] === $params['teamB']) {
-                $errors[] = App::translator()->translate('action.createDraft.sameTeamNames');
+                $errors[] = App::translator()->translate('draft.save.sameTeamNames');
             }
         }
         
@@ -471,36 +470,36 @@ class Draft
                 $limit = ($params['mode'] === self::MODE_RACE ? 15 : 5);
                 
                 if ($params['bans'] > $limit) {
-                    $errors[] = str_replace('#1', $limit, App::translator()->translate('action.createDraft.maxNumberBans'));
+                    $errors[] = str_replace('#1', $limit, App::translator()->translate('draft.save.maxNumberBans'));
                 }
             } else {
                 $limit = ($params['mode'] === self::MODE_RACE ? 17 : 5);
                 
                 if ($params['bans'] > $limit) {
-                    $errors[] = str_replace('#1', $limit, App::translator()->translate('action.createDraft.maxNumberBans'));;
+                    $errors[] = str_replace('#1', $limit, App::translator()->translate('draft.save.maxNumberBans'));;
                 }
             }
         }
         
         if ($params['picks'] <= 0) {
-            $errors[] = App::translator()->translate('action.createDraft.numberPicksMissing');
+            $errors[] = App::translator()->translate('draft.save.numberPicksMissing');
         } else {
             if (!$params['allowTrackRepeats']) {
                 $limit = ($params['mode'] === self::MODE_RACE ? 18 : 6);
                 
                 if ($params['picks'] > $limit) {
-                    $errors[] = str_replace('#1', $limit, App::translator()->translate('action.createDraft.maxNumberPicks'));
+                    $errors[] = str_replace('#1', $limit, App::translator()->translate('draft.save.maxNumberPicks'));
                 }
             } else {
                 if ($params['picks'] > 30) {
-                    $errors[] = str_replace('#1', 30, App::translator()->translate('action.createDraft.maxNumberPicks'));
+                    $errors[] = str_replace('#1', 30, App::translator()->translate('draft.save.maxNumberPicks'));
                 }
             }
         }
         
         if (!empty($params['timeout'])) {
             if ($params['timeout'] < 15 || $params['timeout'] > 60) {
-                $errors[] = App::translator()->translate('action.createDraft.timeValueIncorrect');
+                $errors[] = App::translator()->translate('draft.save.timeValueIncorrect');
             }
         }
         

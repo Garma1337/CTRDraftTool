@@ -1,4 +1,4 @@
-.navbar img, .action-new button img, .action-index button img, .action-draftList button img {
+.navbar img, .controller-draft.action-new button img, .controller-draft.action-index button img, .action-draftList button img {
     margin-top: -3px;
 }
 
@@ -6,7 +6,7 @@
     margin-top: 1rem;
 }
 
-.action-show.main-body.container {
+.controller-draft.action-show.main-body.container {
     max-width: 1650px;
 }
 
@@ -14,7 +14,7 @@
     border-top: 0;
 }
 
-.action-new .alert .btn:first-child {
+.controller-draft.action-new .alert .btn:first-child {
     margin: 0.5rem 0.5rem 0.5rem 0;
 }
 
@@ -22,7 +22,7 @@
     margin-top: 1rem;
 }
 
-.action-show .row {
+.controller-draft.action-show .row {
     justify-content: center;
 }
 
@@ -104,4 +104,8 @@
 
 canvas {
     width: 100%;
+}
+
+.controller-leaderboard.action-show img {
+    max-width: 6rem;
 }

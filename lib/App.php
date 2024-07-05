@@ -12,7 +12,9 @@ use Doctrine\Inflector\NoopWordInflector;
 use DraftTool\Commands\MigrationRunCommand;
 use DraftTool\Services\Cache;
 use DraftTool\Services\Draft;
+use DraftTool\Services\Leaderboard;
 use DraftTool\Services\MigrationManager;
+use DraftTool\Services\RankedMatch;
 use DraftTool\Services\Request;
 use DraftTool\Services\Router;
 use DraftTool\Services\Translator;
@@ -108,6 +110,21 @@ class App
     }
     
     /**
+     * @return Leaderboard
+     */
+    public static function leaderboard(): Leaderboard
+    {
+        if (isset(self::$services['leaderboard'])) {
+            return self::$services['leaderboard'];
+        }
+        
+        $leaderboard = new Leaderboard();
+        self::$services['leaderboard'] = $leaderboard;
+        
+        return $leaderboard;
+    }
+    
+    /**
      * @return MigrationManager
      */
     public static function migrationManager(): MigrationManager
@@ -120,6 +137,21 @@ class App
         self::$services['migration_manager'] = $migrationManager;
         
         return $migrationManager;
+    }
+    
+    /**
+     * @return RankedMatch
+     */
+    public static function rankedMatch(): RankedMatch
+    {
+        if (isset(self::$services['ranked_match'])) {
+            return self::$services['ranked_match'];
+        }
+        
+        $rankedMatch = new RankedMatch();
+        self::$services['ranked_match'] = $rankedMatch;
+        
+        return $rankedMatch;
     }
     
     /**
@@ -155,7 +187,7 @@ class App
     /**
      * @return Smarty
      */
-    public static function template(): Smarty
+    public static function smarty(): Smarty
     {
         if (isset(self::$services['smarty'])) {
             return self::$services['smarty'];

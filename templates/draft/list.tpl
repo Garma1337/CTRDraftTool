@@ -6,11 +6,11 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">{$translator->translate('action.draftList.tableHeadMode')}</th>
+                    <th scope="col">{$translator->translate('draft.list.tableHeadMode')}</th>
                     <th scope="col">Team A</th>
                     <th scope="col">Team B</th>
-                    <th scope="col">{$translator->translate('action.draftList.tableHeadNumberBans')}</th>
-                    <th scope="col">{$translator->translate('action.draftList.tableHeadNumberPicks')}</th>
+                    <th scope="col">{$translator->translate('draft.list.tableHeadNumberBans')}</th>
+                    <th scope="col">{$translator->translate('draft.list.tableHeadNumberPicks')}</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -25,11 +25,9 @@
                         <td>{$draft.bans}</td>
                         <td>{$draft.picks}</td>
                         <td>
-                            <a href="{$router->generateUrl('draft', 'show', ['id' => $draft.id])}">
-                                <button class="btn btn-primary">
-                                    <img src="{$router->getBaseUrl()}web/images/icons-white/zoom-in.svg" alt>
-                                    {$translator->translate('action.draftList.buttonShowLabel')}
-                                </button>
+                            <a href="{$router->generateUrl('draft', 'show', ['id' => $draft.id])}" class="btn btn-secondary">
+                                <img src="{$router->getBaseUrl()}web/images/icons-white/zoom-in.svg" alt>
+                                {$translator->translate('draft.list.buttonShowLabel')}
                             </a>
                         </td>
                     </tr>
@@ -40,6 +38,6 @@
 
     {include file='draft/_pagination.tpl'}
 {else}
-    <div class="alert alert-primary">{$translator->translate('action.draftList.noDraftsNotice')|replace:'#1':$router->generateUrl('draft', 'new') nofilter}</div>
+    <div class="alert alert-primary">{$translator->translate('draft.list.noDraftsNotice')|replace:'#1':$router->generateUrl('draft', 'new') nofilter}</div>
 {/if}
 

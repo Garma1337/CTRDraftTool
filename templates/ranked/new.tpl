@@ -3,7 +3,7 @@
   $(document).ready(function () {
     $('#textareaData').on('change', function() {
         const data = parseData($(this).val());
-        $('input[type="hidden"]').attr('value', JSON.stringify(data));
+        $('input[name="result"]').attr('value', JSON.stringify(data));
     });
   });
 </script>
@@ -28,13 +28,14 @@
 
 <div class="row">
     <div class="col-4">
-        <form action="{$router->generateUrl('mogi', 'save')}" method="post">
+        <form action="{$router->generateUrl('ranked', 'save')}" method="post">
             <div class="form-group">
                 <label for="textareaData" class="form-label">Enter the table</label>
                 <textarea name="table" class="form-control" id="textareaData" cols="30" rows="20" onkeyup="queueRefresh()"></textarea>
             </div>
 
             <input type="hidden" name="result" value="">
+            <input type="hidden" name="leaderboardId" value="{$leaderboardId}">
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">

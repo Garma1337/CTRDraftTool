@@ -39,11 +39,11 @@
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item{if $controller === 'draft' && $action === 'new'} active{/if}" href="{$router->generateUrl('draft', 'new')}">
-                                    {$translator->translate('action.index.navigationCreateDraft')}
+                                    {$translator->translate('navigation.item.createDraft')}
                                 </a>
 
                                 <a class="dropdown-item{if $controller === 'draft' && $action === 'list'} active{/if}" href="{$router->generateUrl('draft', 'list')}">
-                                    {$translator->translate('action.index.navigationDraftList')}
+                                    {$translator->translate('navigation.item.draftList')}
                                 </a>
                             </div>
                         </li>
@@ -54,12 +54,8 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item{if $controller === 'mogi' && $action === 'new'} active{/if}" href="{$router->generateUrl('mogi', 'new')}">
-                                    {$translator->translate('action.index.navigationCreateMogi')}
-                                </a>
-
-                                <a class="dropdown-item{if $controller === 'mogi' && $action === 'list'} active{/if}" href="{$router->generateUrl('mogi', 'list')}">
-                                    {$translator->translate('action.index.navigationMogiList')}
+                                <a class="dropdown-item{if $controller === 'leaderboard' && $action === 'index'} active{/if}" href="{$router->generateUrl('leaderboard', 'index')}">
+                                    {$translator->translate('navigation.item.leaderboards')}
                                 </a>
                             </div>
                         </li>
@@ -69,12 +65,12 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLanguageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="{$router->getBaseUrl()}web/images/icons-white/flag.svg" alt>
-                                {$translator->translate('action.index.navigationLanguage')}
+                                {$translator->translate('navigation.item.languageSelect')}
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 {foreach from=$translator->getLanguages() item=language}
-                                    <a class="dropdown-item" href="{$router->generateUrl('draft', 'index', ['language' => $language])}">{$language|ucfirst}</a>
+                                    <a class="dropdown-item" href="{$router->generateUrl($controller, $action, ['language' => $language])}">{$language|ucfirst}</a>
                                 {/foreach}
                             </div>
                         </li>
