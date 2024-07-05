@@ -1,5 +1,5 @@
 {if $drafts|count > 0}
-    {include file='_draftListPagination.tpl'}
+    {include file='draft/_pagination.tpl'}
 
     <div class="table-responsive">
         <table class="table table-hover table-striped">
@@ -25,7 +25,7 @@
                         <td>{$draft.bans}</td>
                         <td>{$draft.picks}</td>
                         <td>
-                            <a href="{$router->generateUrl('show', ['id' => $draft.id])}">
+                            <a href="{$router->generateUrl('draft', 'show', ['id' => $draft.id])}">
                                 <button class="btn btn-primary">
                                     <img src="{$router->getBaseUrl()}web/images/icons-white/zoom-in.svg" alt>
                                     {$translator->translate('action.draftList.buttonShowLabel')}
@@ -38,8 +38,8 @@
         </table>
     </div>
 
-    {include file='_draftListPagination.tpl'}
+    {include file='draft/_pagination.tpl'}
 {else}
-    <div class="alert alert-primary">{$translator->translate('action.draftList.noDraftsNotice')|replace:'#1':$router->generateUrl('new') nofilter}</div>
+    <div class="alert alert-primary">{$translator->translate('action.draftList.noDraftsNotice')|replace:'#1':$router->generateUrl('draft', 'new') nofilter}</div>
 {/if}
 

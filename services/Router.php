@@ -12,13 +12,14 @@ class Router
 {
     /**
      * Generates a URL
+     * @param string $controller
      * @param string $action
      * @param array $params
      * @return string
      */
-    public function generateUrl(string $action, array $params = []): string
+    public function generateUrl(string $controller, string $action, array $params = []): string
     {
-        $url = $this->getBaseUrl() . 'index.php?action=' . $action;
+        $url = $this->getBaseUrl() . 'index.php?controller=' . $controller . '&action=' . $action;
         
         if (count($params) > 0) {
             $url .= '&' . http_build_query($params);

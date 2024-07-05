@@ -2,79 +2,39 @@
 
 declare(strict_types = 1);
 
-namespace DraftTool\Lib;
+namespace DraftTool\Controllers;
 
+use DraftTool\Lib\App;
+use DraftTool\Lib\BaseController;
 use DraftTool\Services\Draft;
-use DraftTool\Services\Request;
-use DraftTool\Services\Translator;
-use Smarty;
-use SmartyException;
 
 /**
- * Main Controller
+ * Draft Controller
  * @author Garma
  */
-class Controller
+class DraftController extends BaseController
 {
     /**
-     * @var Request
-     */
-    protected Request $request;
-    
-    /**
-     * @var Smarty
-     */
-    protected Smarty $template;
-    
-    public function __construct()
-    {
-        $this->request = App::request();
-        $this->template = App::template();
-    }
-    
-    /**
-     * This method is always executed before every action
-     */
-    public function preDispatch(): void
-    {
-        if ($this->request->has('language')) {
-            $language = $this->request->getParam('language');
-            
-            if (!App::translator()->languageExists($language)) {
-                $_SESSION['language'] = Translator::LANGUAGE_ENGLISH;
-            } else {
-                $_SESSION['language'] = $language;
-            }
-        }
-    }
-    
-    /**
      * Index Action
-     * @throws SmartyException
      */
     public function indexAction(): void
     {
-        $this->renderTemplate('index');
     }
     
     /**
      * Action to create a new draft
-     * @throws SmartyException
      */
     public function newAction(): void
     {
         $this->template->assign([
             'baseUrl'       => App::router()->getBaseUrl(),
-            'formAction'    => App::router()->generateUrl('createDraft'),
+            'formAction'    => App::router()->generateUrl('draft', 'createDraft'),
             'modes'         => App::draft()->getModes()
         ]);
-        
-        $this->renderTemplate('new');
     }
     
     /**
      * Action to show a draft
-     * @throws SmartyException
      */
     public function showAction(): void
     {
@@ -101,7 +61,7 @@ class Controller
                     if ($availableTrack['id'] === $existingTrack['id']) {
                         $isAvailable = true;
                         
-                        false;
+                        break;
                     }
                 }
                 
@@ -129,15 +89,12 @@ class Controller
         } else {
             $this->template->assign('id', $draftId);
         }
-        
-        $this->renderTemplate('show');
     }
     
     /**
      * Displays a list of all drafts
-     * @throws SmartyException
      */
-    public function draftListAction(): void
+    public function listAction(): void
     {
         $limit = 10;
         
@@ -165,14 +122,12 @@ class Controller
             'pages'     => $pages,
             'page'      => $page
         ]);
-        
-        $this->renderTemplate('draftList');
     }
     
     /**
      * Ajax action to create a draft and return the created draft's data
      */
-    public function createDraftAction(): void
+    public function saveAction(): void
     {
         if ($this->request->isPost()) {
             $response = [];
@@ -221,7 +176,7 @@ class Controller
     /**
      * Action to update a draft (ban / pick)
      */
-    public function updateDraftAction(): void
+    public function updateAction(): void
     {
         if ($this->request->isPost()) {
             $draftId = (int) $this->request->getParam('draftId');
@@ -255,52 +210,9 @@ class Controller
                 App::draft()->pickTrack($draftId, $trackId, $postedTeamId);
             }
             
-            $this->redirect('show', ['id' => $draftId, 'accessKey' => $accessKey]);
+            $this->redirect('draft', 'show', ['id' => $draftId, 'accessKey' => $accessKey]);
         } else {
             echo json_encode(['error' => 'Invalid request method']);
         }
-    }
-    
-    /**
-     * This method is always executed after every action
-     */
-    public function postDispatch(): void
-    {
-    }
-    
-    /**
-     * Renders the template
-     * @param string $action
-     * @throws SmartyException
-     */
-    protected function renderTemplate(string $action): void
-    {
-        /* Imagine assigning objects to the view KEKW ... I am lazy */
-        $this->template->assign([
-            'action'        => $action,
-            'router'        => App::router(),
-            'translator'    => App::translator(),
-            'selectedTheme' => $_SESSION['theme'],
-            'lightTheme'    => App::THEME_LIGHT,
-            'darkTheme'     => App::THEME_DARK,
-        ]);
-        
-        $content = $this->template->fetch($action . '.tpl');
-        
-        $layout = App::template();
-        $layout->assign('content', $content);
-        
-        $layout->display('layout.tpl');
-    }
-    
-    /**
-     * Redirects a user to a given action
-     * @param string $action
-     * @param array $params
-     */
-    protected function redirect(string $action, array $params = []): void
-    {
-        $url = App::router()->generateUrl($action, $params);
-        header('Location: ' . $url, true, 301);
     }
 }

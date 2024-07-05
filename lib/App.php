@@ -7,6 +7,8 @@ namespace DraftTool\Lib;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\NoopWordInflector;
 use DraftTool\Commands\MigrationRunCommand;
 use DraftTool\Services\Cache;
 use DraftTool\Services\Draft;
@@ -26,12 +28,6 @@ use Symfony\Component\Console\Application;
 class App
 {
     /**
-     * Themes
-     */
-    public const THEME_LIGHT = 'light';
-    public const THEME_DARK = 'dark';
-    
-    /**
      * @var array
      */
     private static array $services;
@@ -45,7 +41,7 @@ class App
             return self::$services['application'];
         }
         
-        $application = new Application('DraftTool', '1.0.0');
+        $application = new Application('CTR Central', '1.0.0');
         $application->add(new MigrationRunCommand());
         
         self::$services['application'] = $application;
@@ -199,22 +195,32 @@ class App
      */
     public static function dispatchRequest(): void
     {
-        $action = self::request()->getParam('action', 'index');
+        $controllerName = self::request()->getParam('controller', 'draft');
+        $actionName = self::request()->getParam('action', 'index');
+    
+        $inflector = new Inflector(new NoopWordInflector(), new NoopWordInflector());
         
-        $controller = new Controller();
-        $actionMethod = $action . 'Action';
+        $controllerClassName = 'DraftTool\Controllers\\' . $inflector->classify($controllerName) . 'Controller';
+        $actionMethodName = $actionName . 'Action';
         
-        $reflectionClass = new ReflectionClass($controller);
+        if (!class_exists($controllerClassName)) {
+            echo 'Controller "' . $controllerName . '" not found.';
+            die();
+        }
         
-        if (!$reflectionClass->hasMethod($actionMethod)) {
-            echo 'Action "' . $action . '" not found.';
+        /** @var BaseController $controller */
+        $controller = new $controllerClassName();
+        $reflectionClass = new ReflectionClass($controllerClassName);
+        
+        if (!$reflectionClass->hasMethod($actionMethodName)) {
+            echo 'Action "' . $actionName . '" not found.';
             die();
         }
         
         session_start();
         
         $controller->preDispatch();
-        $controller->$actionMethod();
+        $controller->$actionMethodName();
         $controller->postDispatch();
     }
 }

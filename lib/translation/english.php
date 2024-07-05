@@ -3,6 +3,8 @@
 return [
     'action.index.navigationCreateDraft'                => 'Create Draft',
     'action.index.navigationDraftList'                  => 'Previous Drafts',
+    'action.index.navigationCreateMogi'                 => 'Enter Mogi',
+    'action.index.navigationMogiList'                   => 'Previous Mogis',
     'action.index.navigationLanguage'                   => 'Language',
     'action.index.welcomeText'                          => 'Welcome to the CTR Draft Tool v2!',
     'action.index.explanation'                          => 'This Draft Tool is an enhanced version of Leniovias\' old Draft Tool. It features mobile support, as well as the possibility to exclude Tracks like Spyro Circuit or Hyper Spaceway. It also supports a custom number of bans and picks and many other things!',

@@ -3,6 +3,8 @@
 return [
     'action.index.navigationCreateDraft'                => 'Draft erstellen',
     'action.index.navigationDraftList'                  => 'Abgeschlossene Drafts',
+    'action.index.navigationCreateMogi'                 => 'Mogi erstellen',
+    'action.index.navigationMogiList'                   => 'Abgeschlossene Mogis',
     'action.index.navigationLanguage'                   => 'Sprache',
     'action.index.welcomeText'                          => 'Willkommen auf dem CTR Draft Tool v2!',
     'action.index.explanation'                          => 'Dieses Draft Tool ist eine Neuentwicklung von Leniovias\' altem Draft Tool. Es unterstützt Smartphones sowie die Möglichkeit bestimmte Strecken wie Spyro Circuit oder Hyper Spaceway von der Streckenauswahl auszuschließen. Außerdem kann man eine eigene Anzahl Banns und Picks eingeben und vieles mehr!',

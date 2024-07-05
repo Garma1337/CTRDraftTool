@@ -117,7 +117,7 @@
             <div class="track-grid">
                 {foreach from=$tracks key=index item=track}
                     {if $teamId && $teamId === $currentTurn && $track.isAvailable}
-                        <form method="post" action="{$router->generateUrl('updateDraft')}" id="updateDraftForm{$track.id}" class="d-none">
+                        <form method="post" action="{$router->generateUrl('draft', 'updateDraft')}" id="updateDraftForm{$track.id}" class="d-none">
                             <input type="text" name="teamId" value="{$teamId}">
                             <input type="text" name="accessKey" value="{$accessKey}">
                             <input type="text" name="draftId" value="{$draft.id}">

@@ -9,7 +9,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
         <title>CTR Draft Tool v2</title>
 
@@ -21,8 +21,8 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-xl main-container">
-                <a class="navbar-brand" href="{$router->generateUrl('index')}">
-                    <img src="{$router->getBaseUrl()}web/images/icons-white/grid.svg" alt> CTR Draft Tool v2
+                <a class="navbar-brand" href="{$router->generateUrl('draft', 'index')}">
+                    <img src="{$router->getBaseUrl()}web/images/icons-white/globe.svg" alt> CTR Central
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -32,18 +32,36 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item{if $action === 'new'} active{/if}">
-                            <a class="nav-link" href="{$router->generateUrl('new')}">
-                                <img src="{$router->getBaseUrl()}web/images/icons-white/plus.svg" alt>
-                                {$translator->translate('action.index.navigationCreateDraft')}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{$router->getBaseUrl()}web/images/icons-white/grid.svg" alt> Drafting
                             </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item{if $controller === 'draft' && $action === 'new'} active{/if}" href="{$router->generateUrl('draft', 'new')}">
+                                    {$translator->translate('action.index.navigationCreateDraft')}
+                                </a>
+
+                                <a class="dropdown-item{if $controller === 'draft' && $action === 'list'} active{/if}" href="{$router->generateUrl('draft', 'list')}">
+                                    {$translator->translate('action.index.navigationDraftList')}
+                                </a>
+                            </div>
                         </li>
 
-                        <li class="nav-item{if $action === 'draftList'} active{/if}">
-                            <a class="nav-link" href="{$router->generateUrl('draftList')}">
-                                <img src="{$router->getBaseUrl()}web/images/icons-white/align-justify.svg" alt>
-                                {$translator->translate('action.index.navigationDraftList')}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{$router->getBaseUrl()}web/images/icons-white/award.svg" alt> Ranked
                             </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item{if $controller === 'mogi' && $action === 'new'} active{/if}" href="{$router->generateUrl('mogi', 'new')}">
+                                    {$translator->translate('action.index.navigationCreateMogi')}
+                                </a>
+
+                                <a class="dropdown-item{if $controller === 'mogi' && $action === 'list'} active{/if}" href="{$router->generateUrl('mogi', 'list')}">
+                                    {$translator->translate('action.index.navigationMogiList')}
+                                </a>
+                            </div>
                         </li>
                     </ul>
 
@@ -56,7 +74,7 @@
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 {foreach from=$translator->getLanguages() item=language}
-                                    <a class="dropdown-item" href="{$router->generateUrl('index', ['language' => $language])}">{$language|ucfirst}</a>
+                                    <a class="dropdown-item" href="{$router->generateUrl('draft', 'index', ['language' => $language])}">{$language|ucfirst}</a>
                                 {/foreach}
                             </div>
                         </li>
@@ -65,7 +83,7 @@
             </div>
         </nav>
 
-        <div class="container main-container main-body action-{$action}">
+        <div class="container main-container main-body controller-{$controller} action-{$action}">
             <div id="currentLanguage" class="d-none">{$translator->getCurrentLanguage}</div>
 
             {$content nofilter}

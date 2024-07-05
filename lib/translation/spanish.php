@@ -3,6 +3,8 @@
 return [
     'action.index.navigationCreateDraft'                => 'Crear Draft',
     'action.index.navigationDraftList'                  => 'Drafts Antiguos',
+    'action.index.navigationCreateMogi'                 => 'Crear Mogi',
+    'action.index.navigationMogiList'                   => 'Mogis Antiguos',
     'action.index.navigationLanguage'                   => 'Idioma',
     'action.index.welcomeText'                          => 'Bienvenido a la herramienta para drafts de CTR v2!',
     'action.index.explanation'                          => 'Esta herramienta para drafts es una versión mejorada de la antigua herramienta para drafts de Leniovias. Esta puede ser utilizada en dispositivos móbiles, así como la posibilidad de excluir pistas como Circuito Spyro o Autopista Espacial. Esta también permite elegir un nuúmero personalizado de baneos y elecciones, así como diversas otras novedades!',
